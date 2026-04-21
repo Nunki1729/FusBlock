@@ -209,6 +209,18 @@ int Piece::getY() const {
     return y;
 }
 
+int Piece::getType() const {
+    return type;
+}
+
+int Piece::getRotation() const {
+    return rotation;
+}
+
+bool Piece::getCell(int i, int j) const {
+    return shapes[type][rotation][i][j];
+}
+
 // Movimientos
 void Piece::move_left() {
     if (x > 0) {
@@ -222,6 +234,10 @@ void Piece::move_right() {
     }
 }
 
+void Piece::fall() {
+    y++;
+}
+
 // Mostrar
 void Piece::show() {
     for (int i = 0; i < 4; i++) {
@@ -230,4 +246,4 @@ void Piece::show() {
         }
         std::cout << std::endl;
     }
-}
+} 

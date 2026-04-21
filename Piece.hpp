@@ -12,10 +12,14 @@ public:
     // Getters (para poder ver datos desde fuera)
     int getX() const;
     int getY() const;
+    int getType() const;
+    int getRotation() const;
+    bool getCell(int i, int j) const;
 
     // Movimientos
     void move_right();
     void move_left();
+    void fall();
 
     // Mostrar figura
     void show();
