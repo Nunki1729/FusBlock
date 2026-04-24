@@ -1,16 +1,22 @@
 #ifndef GRID_HPP
 #define GRID_HPP
 
-#include "Piece.hpp"
+class Piece;
 
 class Grid {
 public:
+    Grid();
 
-    bool can_move_left(const Piece& p);
-    bool can_move_right(const Piece& p);
+    // info sobre las piezas en el grid
+    bool can_move_left(const Piece& p) const;
+    bool can_move_right(const Piece& p) const;
+    bool can_fall(const Piece& p) const;
+
+    // Geters
+    bool getCell(int y, int x) const;
 
 private:
-    bool state[24][16];
+    bool state[26][16];
 };
 
 #endif

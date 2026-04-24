@@ -1,6 +1,8 @@
 #ifndef PIECE_HPP
 #define PIECE_HPP
 
+class Grid;
+
 class Piece {
 public:
     // Constructor
@@ -14,21 +16,19 @@ public:
     int getY() const;
     int getType() const;
     int getRotation() const;
-    bool getCell(int i, int j) const;
+    bool getCell(int y, int x) const;
 
     // Movimientos
-    void move_right();
-    void move_left();
-    void fall();
+    void move_left(const Grid& g);
+    void move_right(const Grid& g);
+    void fall(const Grid& g);
 
-    // Mostrar figura
-    void show();
 private:
     static bool shapes[7][4][4][4];
     int type;
     int rotation;
-    int x;
-    int y;
+    int global_x;
+    int global_y;
 };
 
 #endif

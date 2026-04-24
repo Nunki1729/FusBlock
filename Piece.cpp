@@ -1,5 +1,5 @@
 #include "Piece.hpp"
-#include <iostream>
+#include "Grid.hpp"
 
 // DEFINICIÓN del atributo static (OBLIGATORIO en C++)
 bool Piece::shapes[7][4][4][4] = {
@@ -191,8 +191,8 @@ bool Piece::shapes[7][4][4][4] = {
 Piece::Piece(const int t, const int r) {
     type = t;
     rotation = r % 4;
-    x = 0;
-    y = 0;
+    global_x = 6;
+    global_y = 0;
 }
 
 // Rotación
@@ -202,11 +202,11 @@ void Piece::rotate() {
 
 // Getters
 int Piece::getX() const {
-    return x;
+    return global_x;
 }
 
 int Piece::getY() const {
-    return y;
+    return global_y;
 }
 
 int Piece::getType() const {
@@ -217,33 +217,25 @@ int Piece::getRotation() const {
     return rotation;
 }
 
-bool Piece::getCell(int i, int j) const {
-    return shapes[type][rotation][i][j];
+bool Piece::getCell(int y, int x) const {
+    return shapes[type][rotation][y][x];
 }
 
 // Movimientos
-void Piece::move_left() {
-    if (x > 0) {
-        x--;
+void Piece::move_left(const Grid& g) {
+    if (g.can_move_left(*this)) {
+        global_x--;
     }
 }
 
-void Piece::move_right() {
-    if (x < 12) {
-        x++;
+void Piece::move_right(const Grid& g) {
+    if (g.can_move_right(*this)) {
+        global_x++;
     }
 }
 
-void Piece::fall() {
-    y++;
-}
-
-// Mostrar
-void Piece::show() {
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            std::cout << shapes[type][rotation][i][j] << " ";
-        }
-        std::cout << std::endl;
+void Piece::fall(const Grid& g) {
+    if (g.can_fall(*this)) {
+        global_y++;
     }
-} 
+}
