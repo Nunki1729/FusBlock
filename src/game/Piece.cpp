@@ -196,8 +196,10 @@ Piece::Piece(const int t, const int r) {
 }
 
 // Rotación
-void Piece::rotate() {
-    rotation = (rotation + 1) % 4;
+void Piece::rotate(const Grid& g) {
+    if (g.can_rotate(*this)) {
+        rotation = (rotation + 1) % 4;
+    }
 }
 
 // Getters
@@ -217,8 +219,9 @@ int Piece::getRotation() const {
     return rotation;
 }
 
-bool Piece::getCell(int y, int x) const {
-    return shapes[type][rotation][y][x];
+bool Piece::getCell(int y, int x, int rotationOverride) const {
+    int rot = (rotationOverride == -1) ? rotation : rotationOverride;
+    return shapes[type][rot][y][x];
 }
 
 // Movimientos
