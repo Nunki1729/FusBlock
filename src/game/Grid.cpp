@@ -94,6 +94,21 @@ bool Grid::can_rotate(const Piece& p) const {
     return 1;
 }
 
+bool Grid::collides(const Piece& p, const int dy, const int dx, const int rot) const {
+    int baseY = p.getY();
+    int baseX = p.getX();
+
+    if (baseY + dy < 0 || baseY + dy > 23 || baseX + dx < 0 || baseX + dx > 12) return 1;
+
+    for (int y = 0; y < 4; y++) {
+        for (int x = 0; x < 4; x++) {
+            if (p.getCell(y, x, rot) && state[baseY + dy + y][baseX + dx +x]) return 1;
+        }
+    }
+
+    return 0;
+}
+
 bool Grid::getCell(int y, int x) const {
     return state[y][x];
 }
@@ -106,6 +121,18 @@ void Grid::merge(const Piece& p) {
         for (int x = 0; x < 4; x++) {
             bool& cell = state[baseY + y][baseX + x];
             if (!cell && p.getCell(y, x)) cell = 1;
+        }
+    }
+}
+
+void Grid::pop_raw(const int raw) { // Hacer que las piezas fijas por encima de la fila caigan
+//    for (int x = 3; x < 13; x++) {
+//        state[raw][x] = 0;
+//    }
+
+    for (int y = raw; y > 0; y--) {
+        for (int x = 3; x < 13; x++) {
+            state[y][x] = state[y - 1][x];
         }
     }
 }

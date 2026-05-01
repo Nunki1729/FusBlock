@@ -13,3 +13,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#include "Grid.hpp"
+#include "Piece.hpp"
+
+
+class Game{
+    public:
+        Game();
+
+        void start();
+        void frame(const float& deltaTime);
+
+    private:
+        void fall();
+        Piece piece;
+        Grid grid;
+        float accumulator;
+};

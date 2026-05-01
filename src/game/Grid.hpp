@@ -20,23 +20,25 @@
 class Piece;
 
 class Grid {
-public:
-    Grid();
+    public:
+        Grid();
 
-    // info sobre las piezas en el grid
-    bool can_move_left(const Piece& p) const;
-    bool can_move_right(const Piece& p) const;
-    bool can_fall(const Piece& p) const;
-    bool can_rotate(const Piece& p) const;
+        // info sobre las piezas en el grid
+        bool can_move_left(const Piece& p) const;
+        bool can_move_right(const Piece& p) const;
+        bool can_fall(const Piece& p) const;
+        bool can_rotate(const Piece& p) const;
 
-    // Geters
-    bool getCell(int y, int x) const;
+        // Geters
+        bool getCell(int y, int x) const;
 
-    // Interaction with pieces
-    void merge(const Piece& p);
+        // Interaction with pieces
+        void merge(const Piece& p);
+        void pop_raw(const int raw);
+        bool collides(const Piece& p, const int dy, const int dx, const int rot) const;
 
-private:
-    bool state[26][16];
+    private:
+        bool state[26][16];
 };
 
 #endif

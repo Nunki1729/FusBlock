@@ -23,43 +23,27 @@
 
 #include "game/Piece.hpp"
 #include "game/Grid.hpp"
+#include "game/Game.hpp"
 #include "render/render.hpp"
 
-const std::chrono::milliseconds frame_time(16); // ~60 FPS
-
 int main() {
-    terminalRender::inicializate();
+    Game game;
 
+    game.start();
 
-    Grid grid;
-    Piece piece(1, 2);
+    const std::chrono::milliseconds frame_time(16); // ~60 FPS
 
     auto lastTime = std::chrono::high_resolution_clock::now();
-    float accumulator = 0.0f;
 
     while (1) {
         // Inicio del cronómetro
         auto start = std::chrono::high_resolution_clock::now();
-        
         float deltaTime = std::chrono::duration<float>(start - lastTime).count(); // Calculo cuanto tiempo ha pasado en el último frame
-        accumulator += deltaTime;
-
         lastTime = start;
 
         // Lo q hace en un frame
-        int ch = getch();
-
-        if (accumulator > 2.0) { // Tarda 2 s en caer
-            piece.fall(grid);
-            accumulator -= 2.0f;
-        }
-
-        if (ch == 'd' || ch == KEY_RIGHT) piece.move_right(grid);
-        if (ch == 'a' || ch == KEY_LEFT) piece.move_left(grid);
-        if (ch == 'w' || ch == KEY_UP) piece.rotate(grid);
-
-        terminalRender::show_state(grid, piece);
-
+        game.frame(deltaTime);
+        
         // Fin del cronómetro
         auto end = std::chrono::high_resolution_clock::now();
         auto target_frame_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

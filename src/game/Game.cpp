@@ -13,3 +13,60 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#include <iostream>
+#include <ncurses.h>
+#include <random>
+
+#include "Piece.hpp"
+#include "Grid.hpp"
+#include "../render/render.hpp"
+#include "Game.hpp"
+
+// Constructor
+Game::Game() : piece(1, 2), grid(), accumulator(0.0f) {}
+
+void Game::start() {
+    terminalRender::inicializate();
+}
+
+void Game::fall() {
+    if (!piece.fall(grid)) {
+
+        grid.merge(piece);
+
+        for (int y = 0; y < 23; y++) {
+            bool full = true;
+
+            for (int x = 3; x < 13; x++) { // solo zona jugable
+                if (!grid.getCell(y, x)) {
+                    full = false;
+                    break;
+                }
+            }
+
+        if (full) grid.pop_raw(y);
+        }
+
+        piece = Piece(1, 2);
+    }
+}
+
+void Game::frame(const float& deltaTime) { // Lo que ocurre en un frame
+    accumulator += deltaTime;
+
+    while (accumulator > 1.0f) { // Tarda 2 s en caer
+        fall();
+        accumulator -= 1.0f;
+    }
+
+    int ch = getch();
+
+    if (ch == 'd' || ch == KEY_RIGHT) piece.move_right(grid);
+    if (ch == 'a' || ch == KEY_LEFT) piece.move_left(grid);
+    if (ch == 'w' || ch == KEY_UP) piece.rotate(grid);
+    if (ch == 's' || ch == KEY_DOWN) fall();
+
+    terminalRender::show_state(grid, piece);
+
+}

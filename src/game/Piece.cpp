@@ -211,13 +211,6 @@ Piece::Piece(const int t, const int r) {
     global_y = 0;
 }
 
-// Rotación
-void Piece::rotate(const Grid& g) {
-    if (g.can_rotate(*this)) {
-        rotation = (rotation + 1) % 4;
-    }
-}
-
 // Getters
 int Piece::getX() const {
     return global_x;
@@ -241,20 +234,30 @@ bool Piece::getCell(int y, int x, int rotationOverride) const {
 }
 
 // Movimientos
-void Piece::move_left(const Grid& g) {
-    if (g.can_move_left(*this)) {
-        global_x--;
-    }
+bool Piece::rotate(const Grid& g) {
+    if (g.collides(*this, 0, 0, this->getRotation() + 1)) return 0;
+    
+    rotation = (rotation + 1) % 4;
+    return 1;
 }
 
-void Piece::move_right(const Grid& g) {
-    if (g.can_move_right(*this)) {
-        global_x++;
-    }
+bool Piece::move_left(const Grid& g) {
+    if (g.collides(*this, 0, -1, this->getRotation())) return 0;
+
+    global_x--;
+    return 1;
 }
 
-void Piece::fall(const Grid& g) {
-    if (g.can_fall(*this)) {
-        global_y++;
-    }
+bool Piece::move_right(const Grid& g) {
+    if (g.collides(*this, 0, 1, this->getRotation())) return 0;
+    
+    global_x++;
+    return 1;
+}
+
+bool Piece::fall(const Grid& g) {
+    if (g.collides(*this, 1, 0, this->getRotation())) return 0;
+    
+    global_y++;
+    return 1;
 }

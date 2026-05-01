@@ -20,31 +20,29 @@
 class Grid;
 
 class Piece {
-public:
-    // Constructor
-    Piece(const int t, const int r);
-    
-    // Rotación
-    void rotate(const Grid& g);
+    public:
+        // Constructor
+        Piece(const int t, const int r);
 
-    // Getters (para poder ver datos desde fuera)
-    int getX() const;
-    int getY() const;
-    int getType() const;
-    int getRotation() const;
-    bool getCell(int y, int x, int rotationOverride = -1) const;
+        // Getters (para poder ver datos desde fuera)
+        int getX() const;
+        int getY() const;
+        int getType() const;
+        int getRotation() const;
+        bool getCell(int y, int x, int rotationOverride = -1) const;
 
-    // Movimientos
-    void move_left(const Grid& g);
-    void move_right(const Grid& g);
-    void fall(const Grid& g);
+        // Movimientos
+        bool rotate(const Grid& g);
+        bool move_left(const Grid& g);
+        bool move_right(const Grid& g);
+        bool fall(const Grid& g);
 
-private:
-    static bool shapes[7][4][4][4];
-    int type;
-    int rotation;
-    int global_x;
-    int global_y;
+    private:
+        static bool shapes[7][4][4][4];
+        int type;
+        int rotation;
+        int global_x;
+        int global_y;
 };
 
 #endif
