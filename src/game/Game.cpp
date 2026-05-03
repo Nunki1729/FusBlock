@@ -23,8 +23,15 @@
 #include "../render/render.hpp"
 #include "Game.hpp"
 
+std::random_device rd;
+std::mt19937 gen(rd());
+
+std::uniform_int_distribution<int> distType(0, 6);
+std::uniform_int_distribution<int> distRotation(0, 3);
+
+
 // Constructor
-Game::Game() : piece(1, 2), grid(), accumulator(0.0f) {}
+Game::Game() : piece(distType(gen), distRotation(gen)), grid(), accumulator(0.0f) {}
 
 void Game::start() {
     terminalRender::inicializate();
@@ -35,10 +42,10 @@ void Game::fall() {
 
         grid.merge(piece);
 
-        for (int y = 0; y < 23; y++) {
+        for (int y = grid.PLAY_MIN_Y; y < grid.PLAY_MAX_Y; y++) {
             bool full = true;
 
-            for (int x = 3; x < 13; x++) { // solo zona jugable
+            for (int x = grid.PLAY_MIN_X; x < grid.PLAY_MAX_X; x++) { // solo zona jugable
                 if (!grid.getCell(y, x)) {
                     full = false;
                     break;
@@ -48,11 +55,11 @@ void Game::fall() {
         if (full) grid.pop_raw(y);
         }
 
-        piece = Piece(1, 2);
+        piece = Piece(distType(gen), distRotation(gen));
     }
 }
 
-void Game::frame(const float& deltaTime) { // Lo que ocurre en un frame
+void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
     accumulator += deltaTime;
 
     while (accumulator > 1.0f) { // Tarda 2 s en caer

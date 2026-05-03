@@ -23,7 +23,7 @@ class Game{
         Game();
 
         void start();
-        void frame(const float& deltaTime);
+        void frame(const float deltaTime);
 
     private:
         void fall();

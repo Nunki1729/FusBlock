@@ -17,8 +17,8 @@
 #include "Piece.hpp"
 #include "Grid.hpp"
 
-// DEFINICIÓN del atributo static (OBLIGATORIO en C++)
-bool Piece::shapes[7][4][4][4] = {
+// DEFINICIÓN del atributo static 
+const bool Piece::shapes[7][4][4][4] = {
     {
         {
             {0, 0, 0, 0},
@@ -228,35 +228,51 @@ int Piece::getRotation() const {
     return rotation;
 }
 
-bool Piece::getCell(int y, int x, int rotationOverride) const {
-    int rot = (rotationOverride == -1) ? rotation : rotationOverride;
+bool Piece::getCell(const int y, const int x, const int rotationOverride) const {
+    int rot = (rotationOverride == -1) ? rotation : rotationOverride % 4;
     return shapes[type][rot][y][x];
 }
 
 // Movimientos
 bool Piece::rotate(const Grid& g) {
-    if (g.collides(*this, 0, 0, this->getRotation() + 1)) return 0;
-    
-    rotation = (rotation + 1) % 4;
-    return 1;
+    int newRot = (rotation + 1) % 4;
+
+    // Posibles desplazamientos dy, dx
+    const int kicks[5][2] = {
+        {0, 0}, // sin mover
+        {0, 1}, // mover a la derecha
+        {0, -1}, // mover a la izquierda
+        {0, 2}, // mover a la derecha
+        {0, -2} // mover a la izquierda
+    };
+
+    for (auto& k : kicks) {
+        if (!g.collides(*this, k[0], k[1], newRot)) {
+            rotation = newRot;
+            global_y += k[0];
+            global_x += k[1];
+            return 1;
+        }
+    }
+    return 0;
 }
 
 bool Piece::move_left(const Grid& g) {
-    if (g.collides(*this, 0, -1, this->getRotation())) return 0;
+    if (g.collides(*this, 0, -1, rotation)) return 0;
 
     global_x--;
     return 1;
 }
 
 bool Piece::move_right(const Grid& g) {
-    if (g.collides(*this, 0, 1, this->getRotation())) return 0;
+    if (g.collides(*this, 0, 1, rotation)) return 0;
     
     global_x++;
     return 1;
 }
 
 bool Piece::fall(const Grid& g) {
-    if (g.collides(*this, 1, 0, this->getRotation())) return 0;
+    if (g.collides(*this, 1, 0, rotation)) return 0;
     
     global_y++;
     return 1;

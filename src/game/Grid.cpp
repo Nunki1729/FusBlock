@@ -46,59 +46,11 @@ Grid::Grid() : state {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     } {}
 
-bool Grid::can_move_left(const Piece& p) const {
-    if (p.getX() == 0) return 0;
-
-    for (int y = 0; y < 4; y++) {
-        for (int x = 0; x < 4; x++) {
-            if (p.getCell(y, x) && state[p.getY() + y][p.getX() + x - 1]) return 0;
-        }
-    }
-
-    return 1;
-}
-
-bool Grid::can_move_right(const Piece& p) const {
-    if (p.getX() == 12) return 0;
-
-    for (int y = 0; y < 4; y++) {
-        for (int x = 0; x < 4; x++) {
-            if (p.getCell(y, x) && state[p.getY() + y][p.getX() + x + 1]) return 0;
-        }
-    }
-
-    return 1;
-}
-
-bool Grid::can_fall(const Piece& p) const {
-    if (p.getY() == 22) return 0;
-
-    for (int y = 0; y < 4; y++) {
-        for (int x = 0; x < 4; x++) {
-            if (p.getCell(y, x) && state[p.getY() + y + 1][p.getX() + x]) return 0;
-        }
-    }
-
-    return 1;
-}
-
-bool Grid::can_rotate(const Piece& p) const {
-    int virtual_rotation = (p.getRotation() + 1) % 4;
-
-    for (int y = 0; y < 4; y++) {
-        for (int x = 0; x < 4; x++) {
-            if (p.getCell(y, x, virtual_rotation) && state[p.getY() + y][p.getX() + x]) return 0;
-        }
-    }
-
-    return 1;
-}
-
 bool Grid::collides(const Piece& p, const int dy, const int dx, const int rot) const {
     int baseY = p.getY();
     int baseX = p.getX();
 
-    if (baseY + dy < 0 || baseY + dy > 23 || baseX + dx < 0 || baseX + dx > 12) return 1;
+    if (baseY + dy < PLAY_MIN_Y || baseY + dy >= PLAY_MAX_Y || baseX + dx < 0 || baseX + dx >= PLAY_MAX_X) return 1;
 
     for (int y = 0; y < 4; y++) {
         for (int x = 0; x < 4; x++) {
@@ -109,7 +61,7 @@ bool Grid::collides(const Piece& p, const int dy, const int dx, const int rot) c
     return 0;
 }
 
-bool Grid::getCell(int y, int x) const {
+bool Grid::getCell(const int y, const int x) const {
     return state[y][x];
 }
 
@@ -125,13 +77,10 @@ void Grid::merge(const Piece& p) {
     }
 }
 
-void Grid::pop_raw(const int raw) { // Hacer que las piezas fijas por encima de la fila caigan
-//    for (int x = 3; x < 13; x++) {
-//        state[raw][x] = 0;
-//    }
+void Grid::pop_raw(const int raw) {
 
-    for (int y = raw; y > 0; y--) {
-        for (int x = 3; x < 13; x++) {
+    for (int y = raw; y > PLAY_MIN_Y; y--) {
+        for (int x = PLAY_MIN_X; x < PLAY_MAX_X; x++) {
             state[y][x] = state[y - 1][x];
         }
     }

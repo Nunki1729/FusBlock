@@ -29,7 +29,7 @@ class Piece {
         int getY() const;
         int getType() const;
         int getRotation() const;
-        bool getCell(int y, int x, int rotationOverride = -1) const;
+        bool getCell(const int y, const int x, const int rotationOverride = -1) const;
 
         // Movimientos
         bool rotate(const Grid& g);
@@ -38,7 +38,7 @@ class Piece {
         bool fall(const Grid& g);
 
     private:
-        static bool shapes[7][4][4][4];
+        const static bool shapes[7][4][4][4];
         int type;
         int rotation;
         int global_x;
