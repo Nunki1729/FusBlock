@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <iostream>
-#include <ncurses.h>
 #include <random>
 
 #include "Piece.hpp"
@@ -31,10 +29,12 @@ std::uniform_int_distribution<int> distRotation(0, 3);
 
 
 // Constructor
-Game::Game() : piece(distType(gen), distRotation(gen)), grid(), accumulator(0.0f) {}
+Game::Game() : 
+    piece(distType(gen), distRotation(gen)), 
+    grid(), 
+    accumulator(0.0f) {
 
-void Game::start() {
-    terminalRender::inicializate();
+    render::init();
 }
 
 void Game::fall() {
@@ -62,18 +62,15 @@ void Game::fall() {
 void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
     accumulator += deltaTime;
 
+    render::begin_frame();
+
     while (accumulator > 1.0f) { // Tarda 2 s en caer
         fall();
         accumulator -= 1.0f;
     }
 
-    int ch = getch();
+    render::show_state(grid, piece);
 
-    if (ch == 'd' || ch == KEY_RIGHT) piece.move_right(grid);
-    if (ch == 'a' || ch == KEY_LEFT) piece.move_left(grid);
-    if (ch == 'w' || ch == KEY_UP) piece.rotate(grid);
-    if (ch == 's' || ch == KEY_DOWN) fall();
-
-    terminalRender::show_state(grid, piece);
+    render::end_frame();
 
 }

@@ -14,42 +14,76 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <ncurses.h>
+#include <SFML/Graphics.hpp>
 #include "render.hpp"
 #include "../game/Piece.hpp"
 #include "../game/Grid.hpp"
 
-namespace terminalRender
+namespace render
 {
-    void inicializate() {
-    initscr(); // iniciar ncurses
-    cbreak(); // input inmediato
-    noecho(); // no mostrar teclas
-    keypad(stdscr, TRUE); // habilitar flechas
-    nodelay(stdscr, TRUE);// no bloquear input
-}
+    static sf::RenderWindow window;
 
-void show_state(const Grid& g, const Piece& p) {
-    clear();
-    int baseX = p.getX();
-    int baseY = p.getY();
+    constexpr int CELL_SIZE = 30;
+    constexpr int OFFSET_X = 50;
+    constexpr int OFFSET_Y = 50;
 
-    auto is_in_piece = [baseX, baseY](int y, int x) {
-        return (x >= baseX && x <= baseX + 3) && (y >= baseY && y <= baseY + 3); 
-    };
-    
-    for (int y = 0; y < 26; y++) {
-        for (int x = 0; x < 16; x++) {
-            int value;
-            if (is_in_piece(y, x)) {
-                value = (p.getCell(y - baseY, x - baseX) || g.getCell(y, x));
-            } else {
-                value = g.getCell(y, x);
+    void init() {
+        window.create(sf::VideoMode(800, 800), "FusBlock");
+        window.setFramerateLimit(60);
+    }
+
+    bool is_open() {
+        return window.isOpen();
+    }
+
+    void begin_frame() {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear(sf::Color::Black);
+    }
+
+    void show_state(const Grid& g, const Piece& p) {
+        int baseX = p.getX();
+        int baseY = p.getY();
+
+        auto is_in_piece = [baseX, baseY](int y, int x) {
+            return (x >= baseX && x <= baseX + 3) && (y >= baseY && y <= baseY + 3); 
+        };
+
+        sf::RectangleShape block(sf::Vector2f(CELL_SIZE - 1, CELL_SIZE - 1));
+
+        for (int y = 0; y < 26; y++) {
+            for (int x = 0; x < 16; x++) {
+
+                int value;
+
+                if (is_in_piece(y, x)) {
+                    value = (p.getCell(y - baseY, x - baseX) || g.getCell(y, x));
+                } else {
+                    value = g.getCell(y, x);
+                }
+
+                if (value) {
+                    block.setFillColor(sf::Color::White);
+                } else {
+                    block.setFillColor(sf::Color(30, 30, 30));
+                }
+
+                block.setPosition(
+                    OFFSET_X + x * CELL_SIZE,
+                    OFFSET_Y + y * CELL_SIZE
+                );
+
+                window.draw(block);
             }
-            mvprintw(y, x * 2, "%d", value);
         }
     }
-    refresh();
-}
-} // namespace terminalRender
 
+    void end_frame() {
+        window.display();
+    }
+}

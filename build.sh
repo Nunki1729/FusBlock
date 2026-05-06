@@ -16,11 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
-# Crear carpeta build si no existe
 mkdir -p build
 
-# Compilar
-g++ src/main.cpp src/game/*.cpp src/render/*.cpp -o build/main -lncurses
+g++ src/main.cpp src/game/*.cpp src/render/*.cpp \
+-o build/main \
+-std=c++17 \
+-Wall -Wextra \
+-lsfml-graphics -lsfml-window -lsfml-system
 
 echo "✔ Compilado en build/main"

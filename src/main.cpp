@@ -14,22 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
-#include <iostream>
 #include <string>
 #include <chrono>
 #include <thread>
-#include <ncurses.h>
 
-#include "game/Piece.hpp"
-#include "game/Grid.hpp"
 #include "game/Game.hpp"
-#include "render/render.hpp"
 
 int main() {
     Game game;
-
-    game.start();
 
     const std::chrono::milliseconds frame_time(16); // ~60 FPS
 
