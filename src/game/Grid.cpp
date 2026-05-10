@@ -77,7 +77,7 @@ void Grid::merge(const Piece& p) {
     }
 }
 
-void Grid::pop_raw(const int raw) {
+void Grid::popRaw(const int raw) {
 
     for (int y = raw; y > PLAY_MIN_Y; y--) {
         for (int x = PLAY_MIN_X; x < PLAY_MAX_X; x++) {

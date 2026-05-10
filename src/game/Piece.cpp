@@ -257,14 +257,14 @@ bool Piece::rotate(const Grid& g) {
     return 0;
 }
 
-bool Piece::move_left(const Grid& g) {
+bool Piece::moveLeft(const Grid& g) {
     if (g.collides(*this, 0, -1, rotation)) return 0;
 
     global_x--;
     return 1;
 }
 
-bool Piece::move_right(const Grid& g) {
+bool Piece::moveRight(const Grid& g) {
     if (g.collides(*this, 0, 1, rotation)) return 0;
     
     global_x++;

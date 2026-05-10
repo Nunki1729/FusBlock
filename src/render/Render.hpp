@@ -27,5 +27,4 @@ namespace render
     void begin_frame(sf::RenderWindow& window);
     void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p);
     void end_frame(sf::RenderWindow& window);
-    bool is_open(sf::RenderWindow& window);
 }

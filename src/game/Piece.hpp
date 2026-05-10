@@ -32,8 +32,8 @@ class Piece {
 
         // Movimientos
         bool rotate(const Grid& g);
-        bool move_left(const Grid& g);
-        bool move_right(const Grid& g);
+        bool moveLeft(const Grid& g);
+        bool moveRight(const Grid& g);
         bool fall(const Grid& g);
 
     private:

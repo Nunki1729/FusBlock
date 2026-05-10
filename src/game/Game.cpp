@@ -56,23 +56,23 @@ void Game::fall() {
                 }
             }
 
-        if (full) grid.pop_raw(y);
+        if (full) grid.popRaw(y);
         }
 
         piece = Piece(distType(gen), distRotation(gen));
     }
 }
 
-void Game::handle_input() {
+void Game::handleInput() {
     std::vector<Action> actions = input::poll(window);
     
     for (std::vector<Action>::iterator it = actions.begin(); it != actions.end(); it++) {
         switch (*it) {
             case Action::MoveLeft: 
-                piece.move_left(grid);
+                piece.moveLeft(grid);
                 break;
             case Action::MoveRight: 
-                piece.move_right(grid);
+                piece.moveRight(grid);
                 break;
             case Action::Rotate: 
                 piece.rotate(grid);
@@ -99,10 +99,14 @@ void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
         accumulator -= 1.0f;
     }
 
-    handle_input();
+    handleInput();
 
     render::show_state(window, grid, piece);
 
     render::end_frame(window);
 
+}
+
+bool Game::isRunning() {
+    return window.isOpen();
 }

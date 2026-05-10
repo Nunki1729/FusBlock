@@ -22,25 +22,21 @@
 namespace render
 {
 
-    constexpr int CELL_SIZE = 30;
-    constexpr int OFFSET_X = 50;
-    constexpr int OFFSET_Y = 50;
+constexpr int CELL_SIZE = 30;
+constexpr int OFFSET_X = 50;
+constexpr int OFFSET_Y = 50;
     
 
-    void init(sf::RenderWindow& window) {
-        window.create(sf::VideoMode(800, 800), "FusBlock");
-        window.setFramerateLimit(60);
-    }
+void init(sf::RenderWindow& window) {
+    window.create(sf::VideoMode(800, 800), "FusBlock");
+    window.setFramerateLimit(60);
+}
 
-    bool is_open(sf::RenderWindow& window) {
-        return window.isOpen();
-    }
-
-    void begin_frame(sf::RenderWindow& window) {
+void begin_frame(sf::RenderWindow& window) {
         window.clear(sf::Color::Black);
     }
 
-    void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
+void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
         int baseX = p.getX();
         int baseY = p.getY();
 
@@ -77,7 +73,7 @@ namespace render
         }
     }
 
-    void end_frame(sf::RenderWindow& window) {
+void end_frame(sf::RenderWindow& window) {
         window.display();
     }
 }

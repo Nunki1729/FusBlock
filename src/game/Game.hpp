@@ -27,10 +27,11 @@ class Game{
         Game();
 
         void frame(const float deltaTime);
+        bool isRunning();
 
     private:
         void fall();
-        void handle_input();
+        void handleInput();
 
         Piece piece;
         Grid grid;

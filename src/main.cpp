@@ -27,7 +27,7 @@ int main() {
 
     auto lastTime = std::chrono::high_resolution_clock::now();
 
-    while (1) {
+    while (game.isRunning()) {
         // Inicio del cronómetro
         auto start = std::chrono::high_resolution_clock::now();
         float deltaTime = std::chrono::duration<float>(start - lastTime).count(); // Calculo cuanto tiempo ha pasado en el último frame

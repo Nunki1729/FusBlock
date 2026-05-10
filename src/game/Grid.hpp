@@ -33,17 +33,17 @@ class Grid {
         static constexpr int PLAY_MAX_Y = 23;
 
         // info sobre las piezas en el grid
-        bool can_move_left(const Piece& p) const;
-        bool can_move_right(const Piece& p) const;
-        bool can_fall(const Piece& p) const;
-        bool can_rotate(const Piece& p) const;
+        bool canMoveLeft(const Piece& p) const;
+        bool canMoveRight(const Piece& p) const;
+        bool canFall(const Piece& p) const;
+        bool canRotate(const Piece& p) const;
 
         // Geters
         bool getCell(const int y, const int x) const;
 
         // Interaction with pieces
         void merge(const Piece& p);
-        void pop_raw(const int raw);
+        void popRaw(const int raw);
         bool collides(const Piece& p, const int dy, const int dx, const int rot) const;
 
     private:
