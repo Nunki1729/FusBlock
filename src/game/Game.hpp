@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#pragma once
+
+#include <SFML/Graphics.hpp>
+
 #include "Grid.hpp"
 #include "Piece.hpp"
 
@@ -22,12 +26,15 @@ class Game{
     public:
         Game();
 
-        void start();
         void frame(const float deltaTime);
 
     private:
         void fall();
+        void handle_input();
+
         Piece piece;
         Grid grid;
         float accumulator;
+
+        sf::RenderWindow window;
 };

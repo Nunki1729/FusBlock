@@ -14,16 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 #pragma once
 
-class Grid;
-class Piece;
+#include <SFML/Graphics.hpp>
 
-namespace render
-{
-    void init();
-    void begin_frame();
-    void show_state(const Grid& g, const Piece& p);
-    void end_frame();
-    bool is_open();
+enum class Action {
+    None,
+    MoveLeft,
+    MoveRight,
+    Rotate,
+    SoftDrop,
+    Quit
+};
+
+namespace input {
+    std::vector<Action> poll(sf::RenderWindow& window);
 }

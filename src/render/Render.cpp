@@ -15,38 +15,32 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <SFML/Graphics.hpp>
-#include "render.hpp"
+#include "Render.hpp"
 #include "../game/Piece.hpp"
 #include "../game/Grid.hpp"
 
 namespace render
 {
-    static sf::RenderWindow window;
 
     constexpr int CELL_SIZE = 30;
     constexpr int OFFSET_X = 50;
     constexpr int OFFSET_Y = 50;
+    
 
-    void init() {
+    void init(sf::RenderWindow& window) {
         window.create(sf::VideoMode(800, 800), "FusBlock");
         window.setFramerateLimit(60);
     }
 
-    bool is_open() {
+    bool is_open(sf::RenderWindow& window) {
         return window.isOpen();
     }
 
-    void begin_frame() {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
+    void begin_frame(sf::RenderWindow& window) {
         window.clear(sf::Color::Black);
     }
 
-    void show_state(const Grid& g, const Piece& p) {
+    void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
         int baseX = p.getX();
         int baseY = p.getY();
 
@@ -56,8 +50,8 @@ namespace render
 
         sf::RectangleShape block(sf::Vector2f(CELL_SIZE - 1, CELL_SIZE - 1));
 
-        for (int y = 0; y < 26; y++) {
-            for (int x = 0; x < 16; x++) {
+        for (int y = g.PLAY_MIN_Y; y < g.PLAY_MAX_Y; y++) {
+            for (int x = g.PLAY_MIN_X; x < g.PLAY_MAX_X; x++) {
 
                 int value;
 
@@ -83,7 +77,7 @@ namespace render
         }
     }
 
-    void end_frame() {
+    void end_frame(sf::RenderWindow& window) {
         window.display();
     }
 }

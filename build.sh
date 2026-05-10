@@ -18,7 +18,7 @@
 
 mkdir -p build
 
-g++ src/main.cpp src/game/*.cpp src/render/*.cpp \
+g++ src/main.cpp src/game/*.cpp src/render/*.cpp src/input/*.cpp \
 -o build/main \
 -std=c++17 \
 -Wall -Wextra \

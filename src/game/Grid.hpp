@@ -14,8 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GRID_HPP
-#define GRID_HPP
+#pragma once
 
 class Piece;
 
@@ -50,5 +49,3 @@ class Grid {
     private:
         bool state[HEIGHT][WEIGHT];
 };
-
-#endif

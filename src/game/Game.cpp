@@ -15,11 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <random>
+#include <vector>
 
 #include "Piece.hpp"
 #include "Grid.hpp"
-#include "../render/render.hpp"
 #include "Game.hpp"
+
+#include "../render/Render.hpp"
+#include "../input/Input.hpp"
 
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -32,9 +35,10 @@ std::uniform_int_distribution<int> distRotation(0, 3);
 Game::Game() : 
     piece(distType(gen), distRotation(gen)), 
     grid(), 
-    accumulator(0.0f) {
+    accumulator(0.0f),
+    window(sf::VideoMode(800, 800), "FusBlock") {
 
-    render::init();
+    render::init(window);
 }
 
 void Game::fall() {
@@ -59,18 +63,46 @@ void Game::fall() {
     }
 }
 
+void Game::handle_input() {
+    std::vector<Action> actions = input::poll(window);
+    
+    for (std::vector<Action>::iterator it = actions.begin(); it != actions.end(); it++) {
+        switch (*it) {
+            case Action::MoveLeft: 
+                piece.move_left(grid);
+                break;
+            case Action::MoveRight: 
+                piece.move_right(grid);
+                break;
+            case Action::Rotate: 
+                piece.rotate(grid);
+                break;
+            case Action::SoftDrop: 
+                piece.fall(grid);
+                break;
+            case Action::Quit: 
+                window.close();
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
     accumulator += deltaTime;
 
-    render::begin_frame();
+    render::begin_frame(window);
 
     while (accumulator > 1.0f) { // Tarda 2 s en caer
         fall();
         accumulator -= 1.0f;
     }
 
-    render::show_state(grid, piece);
+    handle_input();
 
-    render::end_frame();
+    render::show_state(window, grid, piece);
+
+    render::end_frame(window);
 
 }

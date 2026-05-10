@@ -16,30 +16,16 @@
 
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 class Grid;
+class Piece;
 
-class Piece {
-    public:
-        // Constructor
-        Piece(const int t, const int r);
-
-        // Getters (para poder ver datos desde fuera)
-        int getX() const;
-        int getY() const;
-        int getType() const;
-        int getRotation() const;
-        bool getCell(const int y, const int x, const int rotationOverride = -1) const;
-
-        // Movimientos
-        bool rotate(const Grid& g);
-        bool move_left(const Grid& g);
-        bool move_right(const Grid& g);
-        bool fall(const Grid& g);
-
-    private:
-        const static bool shapes[7][4][4][4];
-        int type;
-        int rotation;
-        int global_x;
-        int global_y;
-};
+namespace render
+{
+    void init(sf::RenderWindow& window);
+    void begin_frame(sf::RenderWindow& window);
+    void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p);
+    void end_frame(sf::RenderWindow& window);
+    bool is_open(sf::RenderWindow& window);
+}
