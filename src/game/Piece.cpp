@@ -18,7 +18,15 @@
 #include "Grid.hpp"
 
 // DEFINICIÓN del atributo static 
-const bool Piece::shapes[7][4][4][4] = {
+const static bool shapes[
+            config::piece::PIECES_NUMBER
+        ][
+            config::piece::ROTATIONS
+        ][
+            config::piece::HEIGHT
+        ][
+            config::piece::WEIGHT
+        ] = {
     {
         {
             {0, 0, 0, 0},

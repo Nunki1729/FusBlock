@@ -16,21 +16,13 @@
 
 #pragma once
 
+#include "../config/Config.hpp"
+
 class Piece;
 
 class Grid {
     public:
         Grid();
-
-        // Constantes
-        static constexpr int HEIGHT = 26;
-        static constexpr int WEIGHT = 16;
-
-        static constexpr int PLAY_MIN_X = 3;
-        static constexpr int PLAY_MAX_X = 13;
-
-        static constexpr int PLAY_MIN_Y = 0;
-        static constexpr int PLAY_MAX_Y = 23;
 
         // info sobre las piezas en el grid
         bool canMoveLeft(const Piece& p) const;
@@ -47,5 +39,5 @@ class Grid {
         bool collides(const Piece& p, const int dy, const int dx, const int rot) const;
 
     private:
-        bool state[HEIGHT][WEIGHT];
+        bool state[config::grid::HEIGHT][config::grid::WEIGHT];
 };

@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include "../config/Config.hpp"
+
 class Grid;
 
 class Piece {
@@ -37,7 +39,16 @@ class Piece {
         bool fall(const Grid& g);
 
     private:
-        const static bool shapes[7][4][4][4];
+        const static bool shapes[
+            config::piece::PIECES_NUMBER
+        ][
+            config::piece::ROTATIONS
+        ][
+            config::piece::HEIGHT
+        ][
+            config::piece::WEIGHT
+        ];
+        
         int type;
         int rotation;
         int global_x;

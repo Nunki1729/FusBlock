@@ -16,6 +16,7 @@
 
 #include "Grid.hpp"
 #include "Piece.hpp"
+#include "../config/Config.hpp"
 
 Grid::Grid() : state {
         {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
@@ -50,7 +51,7 @@ bool Grid::collides(const Piece& p, const int dy, const int dx, const int rot) c
     int baseY = p.getY();
     int baseX = p.getX();
 
-    if (baseY + dy < PLAY_MIN_Y || baseY + dy >= PLAY_MAX_Y || baseX + dx < 0 || baseX + dx >= PLAY_MAX_X) return 1;
+    if (baseY + dy < config::grid::PLAY_MIN_Y || baseY + dy >= config::grid::PLAY_MAX_Y || baseX + dx < 0 || baseX + dx >= config::grid::PLAY_MAX_X) return 1;
 
     for (int y = 0; y < 4; y++) {
         for (int x = 0; x < 4; x++) {
@@ -79,8 +80,8 @@ void Grid::merge(const Piece& p) {
 
 void Grid::popRaw(const int raw) {
 
-    for (int y = raw; y > PLAY_MIN_Y; y--) {
-        for (int x = PLAY_MIN_X; x < PLAY_MAX_X; x++) {
+    for (int y = raw; y > config::grid::PLAY_MIN_Y; y--) {
+        for (int x = config::grid::PLAY_MIN_X; x < config::grid::PLAY_MAX_X; x++) {
             state[y][x] = state[y - 1][x];
         }
     }
