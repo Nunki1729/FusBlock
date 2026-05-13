@@ -16,16 +16,17 @@
 
 #include "Piece.hpp"
 #include "Grid.hpp"
+#include "../config/Config.hpp"
 
 // DEFINICIÓN del atributo static 
-const static bool shapes[
+const bool Piece::shapes[
             config::piece::PIECES_NUMBER
         ][
             config::piece::ROTATIONS
         ][
             config::piece::HEIGHT
         ][
-            config::piece::WEIGHT
+            config::piece::WIDTH
         ] = {
     {
         {
@@ -214,9 +215,9 @@ const static bool shapes[
 // Constructor
 Piece::Piece(const int t, const int r) {
     type = t;
-    rotation = r % 4;
-    global_x = 6;
-    global_y = 0;
+    rotation = r % config::piece::ROTATIONS;
+    global_x = (config::grid::WIDTH / 2) - (config::piece::WIDTH / 2);
+    global_y = config::grid::PLAY_MIN_Y;
 }
 
 // Getters
@@ -237,13 +238,13 @@ int Piece::getRotation() const {
 }
 
 bool Piece::getCell(const int y, const int x, const int rotationOverride) const {
-    int rot = (rotationOverride == -1) ? rotation : rotationOverride % 4;
+    int rot = (rotationOverride == -1) ? rotation : rotationOverride % config::piece::ROTATIONS;
     return shapes[type][rot][y][x];
 }
 
 // Movimientos
 bool Piece::rotate(const Grid& g) {
-    int newRot = (rotation + 1) % 4;
+    int newRot = (rotation + 1) % config::piece::ROTATIONS;
 
     // Posibles desplazamientos dy, dx
     const int kicks[5][2] = {

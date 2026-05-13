@@ -14,6 +14,7 @@ add_executable(FusBlock
     src/game/Piece.cpp
     src/render/Render.cpp
     src/input/Input.cpp
+    src/config/Config.hpp
 )
 
 target_link_libraries(FusBlock

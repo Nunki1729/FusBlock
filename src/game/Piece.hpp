@@ -46,9 +46,9 @@ class Piece {
         ][
             config::piece::HEIGHT
         ][
-            config::piece::WEIGHT
+            config::piece::WIDTH
         ];
-        
+
         int type;
         int rotation;
         int global_x;

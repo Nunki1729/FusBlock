@@ -53,8 +53,8 @@ bool Grid::collides(const Piece& p, const int dy, const int dx, const int rot) c
 
     if (baseY + dy < config::grid::PLAY_MIN_Y || baseY + dy >= config::grid::PLAY_MAX_Y || baseX + dx < 0 || baseX + dx >= config::grid::PLAY_MAX_X) return 1;
 
-    for (int y = 0; y < 4; y++) {
-        for (int x = 0; x < 4; x++) {
+    for (int y = 0; y < config::piece::HEIGHT; y++) {
+        for (int x = 0; x < config::piece::WIDTH; x++) {
             if (p.getCell(y, x, rot) && state[baseY + dy + y][baseX + dx +x]) return 1;
         }
     }
@@ -70,8 +70,8 @@ void Grid::merge(const Piece& p) {
     int baseY = p.getY();
     int baseX = p.getX();
 
-    for (int y = 0; y < 4; y++) {
-        for (int x = 0; x < 4; x++) {
+    for (int y = 0; y < config::piece::HEIGHT; y++) {
+        for (int x = 0; x < config::piece::WIDTH; x++) {
             bool& cell = state[baseY + y][baseX + x];
             if (!cell && p.getCell(y, x)) cell = 1;
         }

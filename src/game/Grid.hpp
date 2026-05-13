@@ -39,5 +39,5 @@ class Grid {
         bool collides(const Piece& p, const int dy, const int dx, const int rot) const;
 
     private:
-        bool state[config::grid::HEIGHT][config::grid::WEIGHT];
+        bool state[config::grid::HEIGHT][config::grid::WIDTH];
 };

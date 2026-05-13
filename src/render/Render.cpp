@@ -18,18 +18,13 @@
 #include "Render.hpp"
 #include "../game/Piece.hpp"
 #include "../game/Grid.hpp"
+#include "../config/Config.hpp"
 
 namespace render
 {
-
-constexpr int CELL_SIZE = 30;
-constexpr int OFFSET_X = 50;
-constexpr int OFFSET_Y = 50;
     
-
 void init(sf::RenderWindow& window) {
-    window.create(sf::VideoMode(800, 800), "FusBlock");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(config::window::FPS);
 }
 
 void begin_frame(sf::RenderWindow& window) {
@@ -41,13 +36,13 @@ void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
         int baseY = p.getY();
 
         auto is_in_piece = [baseX, baseY](int y, int x) {
-            return (x >= baseX && x <= baseX + 3) && (y >= baseY && y <= baseY + 3); 
+            return (x >= baseX && x <= baseX + config::piece::WIDTH - 1) && (y >= baseY && y <= baseY + config::piece::HEIGHT - 1); 
         };
 
-        sf::RectangleShape block(sf::Vector2f(CELL_SIZE - 1, CELL_SIZE - 1));
+        sf::RectangleShape block(sf::Vector2f(config::render::CELL_SIZE - 1, config::render::CELL_SIZE - 1));
 
-        for (int y = g.PLAY_MIN_Y; y < g.PLAY_MAX_Y; y++) {
-            for (int x = g.PLAY_MIN_X; x < g.PLAY_MAX_X; x++) {
+        for (int y = config::grid::PLAY_MIN_Y; y < config::grid::PLAY_MAX_Y; y++) {
+            for (int x = config::grid::PLAY_MIN_X; x < config::grid::PLAY_MAX_X; x++) {
 
                 int value;
 
@@ -64,8 +59,8 @@ void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
                 }
 
                 block.setPosition(
-                    OFFSET_X + x * CELL_SIZE,
-                    OFFSET_Y + y * CELL_SIZE
+                    config::render::OFFSET_X + x * config::render::CELL_SIZE,
+                    config::render::OFFSET_Y + y * config::render::CELL_SIZE
                 );
 
                 window.draw(block);
@@ -76,4 +71,5 @@ void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
 void end_frame(sf::RenderWindow& window) {
         window.display();
     }
+
 }

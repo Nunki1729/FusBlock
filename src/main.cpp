@@ -19,11 +19,12 @@
 #include <thread>
 
 #include "game/Game.hpp"
+#include "config/Config.hpp"
 
 int main() {
     Game game;
 
-    const std::chrono::milliseconds frame_time(16); // ~60 FPS
+    const std::chrono::milliseconds frame_time(1000 / config::window::FPS); // 60 FPS
 
     auto lastTime = std::chrono::high_resolution_clock::now();
 

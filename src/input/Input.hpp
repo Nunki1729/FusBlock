@@ -18,6 +18,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "../config/Config.hpp"
 
 enum class Action {
     None,

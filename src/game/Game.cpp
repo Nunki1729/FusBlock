@@ -23,12 +23,13 @@
 
 #include "../render/Render.hpp"
 #include "../input/Input.hpp"
+#include "../config/Config.hpp"
 
 std::random_device rd;
 std::mt19937 gen(rd());
 
-std::uniform_int_distribution<int> distType(0, 6);
-std::uniform_int_distribution<int> distRotation(0, 3);
+std::uniform_int_distribution<int> distType(0, config::piece::PIECES_NUMBER - 1);
+std::uniform_int_distribution<int> distRotation(0, config::piece::ROTATIONS - 1);
 
 
 // Constructor
@@ -36,7 +37,7 @@ Game::Game() :
     piece(distType(gen), distRotation(gen)), 
     grid(), 
     accumulator(0.0f),
-    window(sf::VideoMode(800, 800), "FusBlock") {
+    window(sf::VideoMode(config::window::WIDTH, config::window::HEIGHT), "FusBlock") {
 
     render::init(window);
 }
@@ -46,10 +47,10 @@ void Game::fall() {
 
         grid.merge(piece);
 
-        for (int y = grid.PLAY_MIN_Y; y < grid.PLAY_MAX_Y; y++) {
+        for (int y = config::grid::PLAY_MIN_Y; y < config::grid::PLAY_MAX_Y; y++) {
             bool full = true;
 
-            for (int x = grid.PLAY_MIN_X; x < grid.PLAY_MAX_X; x++) { // solo zona jugable
+            for (int x = config::grid::PLAY_MIN_X; x < config::grid::PLAY_MAX_X; x++) { // solo zona jugable
                 if (!grid.getCell(y, x)) {
                     full = false;
                     break;
@@ -94,9 +95,9 @@ void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
 
     render::begin_frame(window);
 
-    while (accumulator > 1.0f) { // Tarda 2 s en caer
+    while (accumulator > config::game::FALL_DELAY) { // Tarda 1 s en caer
         fall();
-        accumulator -= 1.0f;
+        accumulator -= config::game::FALL_DELAY;
     }
 
     handleInput();

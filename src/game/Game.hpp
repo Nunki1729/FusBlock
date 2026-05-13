@@ -20,6 +20,7 @@
 
 #include "Grid.hpp"
 #include "Piece.hpp"
+#include "../config/Config.hpp"
 
 
 class Game{

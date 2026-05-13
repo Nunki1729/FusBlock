@@ -18,6 +18,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Input.hpp"
+#include "../config/Config.hpp"
 
 namespace input {
 

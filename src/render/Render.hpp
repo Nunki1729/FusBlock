@@ -17,6 +17,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "../config/Config.hpp"
 
 class Grid;
 class Piece;
