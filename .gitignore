@@ -1,4 +1,63 @@
+# =========================
+# 🔧 BUILD SYSTEM (CMake)
+# =========================
 build/
+build-win/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+_testing/
+
+# =========================
+# 🧱 COMPILADOS (C/C++)
+# =========================
 *.o
+*.obj
 *.out
 *.exe
+*.dll
+*.a
+*.so
+*.dylib
+
+# =========================
+# 🧪 DEBUG / LOGS
+# =========================
+*.log
+*.stackdump
+
+# =========================
+# 🖥️ IDEs / EDITORES
+# =========================
+.vscode/
+.idea/
+*.code-workspace
+
+# =========================
+# 🐧 SYSTEM FILES
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# 🧰 MSYS2 / MinGW
+# =========================
+*.dll.a
+*.exp
+
+# =========================
+# 📦 DIST (IMPORTANTE DECISIÓN)
+# =========================
+dist/
+
+# =========================
+# 🔒 OPTIONAL: TEMP FILES
+# =========================
+*.tmp
+*.swp
+*~
