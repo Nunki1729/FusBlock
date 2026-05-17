@@ -43,15 +43,15 @@ namespace config {
     }
 
     namespace game {
-
-        constexpr float FALL_DELAY = 1.0f;
-
+        constexpr float FALL_DELAY_MIN = 0.1f;
+        constexpr float FALL_DELAY_INITIAL = 2.0f;
+        constexpr float DIFFICULTY = 0.01f;
     }
 
     namespace window {
         constexpr int WIDTH = 800;
         constexpr int HEIGHT = 800;
-        constexpr int FPS = 60;
+        constexpr int FPS = 60; // 0.0166666667 s per frame
     }
 
     namespace render {

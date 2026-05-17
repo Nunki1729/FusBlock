@@ -44,7 +44,7 @@ void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
         for (int y = config::grid::PLAY_MIN_Y; y < config::grid::PLAY_MAX_Y; y++) {
             for (int x = config::grid::PLAY_MIN_X; x < config::grid::PLAY_MAX_X; x++) {
 
-                int value;
+                bool value;
 
                 if (is_in_piece(y, x)) {
                     value = (p.getCell(y - baseY, x - baseX) || g.getCell(y, x));

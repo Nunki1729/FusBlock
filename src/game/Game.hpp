@@ -22,6 +22,18 @@
 #include "Piece.hpp"
 #include "../config/Config.hpp"
 
+struct FallResult {
+    int cleared_rows = 0;
+    bool piece_locked = 0;
+    bool game_over = 0;
+};
+
+struct GameStats {
+    int score;
+    int cleared_lines;
+    float fall_delay;
+    bool game_over;
+};
 
 class Game{
     public:
@@ -31,12 +43,17 @@ class Game{
         bool isRunning();
 
     private:
-        void fall();
+        FallResult fall();
         void handleInput();
+        void updateStats();
 
         Piece piece;
         Grid grid;
+
         float accumulator;
+        
+        GameStats stats;
+        FallResult result;
 
         sf::RenderWindow window;
 };

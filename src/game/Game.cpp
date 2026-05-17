@@ -37,12 +37,15 @@ Game::Game() :
     piece(distType(gen), distRotation(gen)), 
     grid(), 
     accumulator(0.0f),
-    window(sf::VideoMode(config::window::WIDTH, config::window::HEIGHT), "FusBlock") {
+    window(sf::VideoMode(config::window::WIDTH, config::window::HEIGHT), "FusBlock"),
+    stats{0, 0, config::game::FALL_DELAY_INITIAL} {
 
     render::init(window);
 }
 
-void Game::fall() {
+FallResult Game::fall() {
+    FallResult result;
+
     if (!piece.fall(grid)) {
 
         grid.merge(piece);
@@ -57,11 +60,16 @@ void Game::fall() {
                 }
             }
 
-        if (full) grid.popRaw(y);
+            if (full) {
+                grid.popRaw(y);
+                result.cleared_rows++;
+            }
         }
 
         piece = Piece(distType(gen), distRotation(gen));
     }
+
+    return result;
 }
 
 void Game::handleInput() {
@@ -90,15 +98,29 @@ void Game::handleInput() {
     }
 }
 
+void Game::updateStats() {
+    stats.score = (result.cleared_rows == 4) ? 500 : result.cleared_rows * 100;
+    stats.cleared_lines += result.cleared_rows;
+    stats.game_over |= result.game_over;
+    stats.fall_delay = config::game::FALL_DELAY_MIN + (config::game::FALL_DELAY_INITIAL - config::game::FALL_DELAY_MIN) *
+        std::exp(- config::game::DIFFICULTY * stats.cleared_lines);
+
+
+}
+
 void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
     accumulator += deltaTime;
 
     render::begin_frame(window);
 
-    while (accumulator > config::game::FALL_DELAY) { // Tarda 1 s en caer
-        fall();
-        accumulator -= config::game::FALL_DELAY;
+    // COMIENZO DEL FRAME
+
+    while (accumulator > stats.fall_delay) { // Comprobar si la pieza cae
+        result = fall(); // La pieza cae y además la función fall() devuelve el número de filas se han eliminado
+        accumulator -= stats.fall_delay;
     }
+
+    updateStats();
 
     handleInput();
 
