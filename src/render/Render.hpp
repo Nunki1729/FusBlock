@@ -22,10 +22,26 @@
 class Grid;
 class Piece;
 
-namespace render
-{
-    void init(sf::RenderWindow& window);
-    void begin_frame(sf::RenderWindow& window);
-    void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p);
-    void end_frame(sf::RenderWindow& window);
-}
+struct RenderData;
+
+class Render {
+    public:
+    Render(sf::RenderWindow& w, const Grid& g, const Piece& p);
+
+    void beginFrame();
+    void endFrame();
+    void updateWindow();
+
+    void updateData(const RenderData& d);
+
+    private:
+    void showState();
+
+    sf::RenderWindow& window;
+    sf::Font font;
+
+    //const RenderData& data;
+    const Piece& piece;
+    const Grid& grid;
+    //const GameStats& stats;
+};

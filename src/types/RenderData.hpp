@@ -16,14 +16,11 @@
 
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
 class Piece;
 class Grid;
 struct GameStats;
 
 struct RenderData {
-    const sf::RenderWindow& window;
     const Piece& piece;
     const Grid& grid;
     const GameStats& stats;

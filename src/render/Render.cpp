@@ -20,20 +20,26 @@
 #include "../game/Grid.hpp"
 #include "../config/Config.hpp"
 
-namespace render
-{
+#include "../types/RenderData.hpp"
     
-void init(sf::RenderWindow& window) {
+Render::Render(sf::RenderWindow& w, const Grid& g, const Piece& p):
+    window(w),
+    grid(g),
+    piece(p) {
     window.setFramerateLimit(config::window::FPS);
 }
 
-void begin_frame(sf::RenderWindow& window) {
+void Render::beginFrame() {
         window.clear(sf::Color::Black);
     }
 
-void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
-        int baseX = p.getX();
-        int baseY = p.getY();
+void Render::endFrame() {
+        window.display();
+    }
+
+void Render::showState() {
+        int baseX = piece.getX();
+        int baseY = piece.getY();
 
         auto is_in_piece = [baseX, baseY](int y, int x) {
             return (x >= baseX && x <= baseX + config::piece::WIDTH - 1) && (y >= baseY && y <= baseY + config::piece::HEIGHT - 1); 
@@ -47,9 +53,9 @@ void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
                 bool value;
 
                 if (is_in_piece(y, x)) {
-                    value = (p.getCell(y - baseY, x - baseX) || g.getCell(y, x));
+                    value = (piece.getCell(y - baseY, x - baseX) || grid.getCell(y, x));
                 } else {
-                    value = g.getCell(y, x);
+                    value = grid.getCell(y, x);
                 }
 
                 if (value) {
@@ -68,8 +74,6 @@ void show_state(sf::RenderWindow& window, const Grid& g, const Piece& p) {
         }
     }
 
-void end_frame(sf::RenderWindow& window) {
-        window.display();
-    }
-
+void Render::updateWindow() {
+    showState();
 }

@@ -27,6 +27,7 @@
 #include "../types/FallResult.hpp"
 #include "../types/GameStats.hpp"
 #include "../types/Action.hpp"
+#include "../types/RenderData.hpp"
 
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -41,10 +42,8 @@ Game::Game() :
     grid(), 
     accumulator(0.0f),
     window(sf::VideoMode(config::window::WIDTH, config::window::HEIGHT), "FusBlock"),
-    stats{0, 0, config::game::FALL_DELAY_INITIAL} {
-
-    render::init(window);
-}
+    stats{0, 0, config::game::FALL_DELAY_INITIAL},
+    render(window, grid, piece) {}
 
 FallResult Game::fall() {
     FallResult result;
@@ -114,7 +113,7 @@ void Game::updateStats() {
 void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
     accumulator += deltaTime;
 
-    render::begin_frame(window);
+    render.beginFrame();
 
     // COMIENZO DEL FRAME
 
@@ -127,11 +126,9 @@ void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
 
     handleInput();
 
+    render.updateWindow();
 
-
-    render::show_state(window, grid, piece);
-
-    render::end_frame(window);
+    render.endFrame();
 
 }
 

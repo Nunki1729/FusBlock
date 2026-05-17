@@ -25,6 +25,8 @@
 #include "../types/FallResult.hpp"
 #include "../types/GameStats.hpp"
 
+#include "../render/Render.hpp"
+
 class Game{
     public:
         Game();
@@ -46,4 +48,5 @@ class Game{
         FallResult result;
 
         sf::RenderWindow window;
+        Render render;
 };
