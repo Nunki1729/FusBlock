@@ -24,6 +24,9 @@
 #include "../render/Render.hpp"
 #include "../input/Input.hpp"
 #include "../config/Config.hpp"
+#include "../types/FallResult.hpp"
+#include "../types/GameStats.hpp"
+#include "../types/Action.hpp"
 
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -99,11 +102,11 @@ void Game::handleInput() {
 }
 
 void Game::updateStats() {
-    stats.score = (result.cleared_rows == 4) ? 500 : result.cleared_rows * 100;
+    stats.score += (result.cleared_rows == 4) ? 500 : result.cleared_rows * 100;
     stats.cleared_lines += result.cleared_rows;
     stats.game_over |= result.game_over;
     stats.fall_delay = config::game::FALL_DELAY_MIN + (config::game::FALL_DELAY_INITIAL - config::game::FALL_DELAY_MIN) *
-        std::exp(- config::game::DIFFICULTY * stats.cleared_lines);
+        std::exp(- config::game::DIFFICULTY * std::log1p(stats.cleared_lines));
 
 
 }
@@ -123,6 +126,8 @@ void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
     updateStats();
 
     handleInput();
+
+
 
     render::show_state(window, grid, piece);
 

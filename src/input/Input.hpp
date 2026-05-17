@@ -20,14 +20,7 @@
 #include <SFML/Graphics.hpp>
 #include "../config/Config.hpp"
 
-enum class Action {
-    None,
-    MoveLeft,
-    MoveRight,
-    Rotate,
-    SoftDrop,
-    Quit
-};
+enum class Action;
 
 namespace input {
     std::vector<Action> poll(sf::RenderWindow& window);

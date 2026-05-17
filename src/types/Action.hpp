@@ -16,34 +16,11 @@
 
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
-#include "Grid.hpp"
-#include "Piece.hpp"
-#include "../config/Config.hpp"
-
-#include "../types/FallResult.hpp"
-#include "../types/GameStats.hpp"
-
-class Game{
-    public:
-        Game();
-
-        void frame(const float deltaTime);
-        bool isRunning();
-
-    private:
-        FallResult fall();
-        void handleInput();
-        void updateStats();
-
-        Piece piece;
-        Grid grid;
-
-        float accumulator;
-        
-        GameStats stats;
-        FallResult result;
-
-        sf::RenderWindow window;
+enum class Action {
+    None,
+    MoveLeft,
+    MoveRight,
+    Rotate,
+    SoftDrop,
+    Quit
 };

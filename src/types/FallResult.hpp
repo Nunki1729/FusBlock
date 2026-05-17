@@ -16,34 +16,8 @@
 
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
-#include "Grid.hpp"
-#include "Piece.hpp"
-#include "../config/Config.hpp"
-
-#include "../types/FallResult.hpp"
-#include "../types/GameStats.hpp"
-
-class Game{
-    public:
-        Game();
-
-        void frame(const float deltaTime);
-        bool isRunning();
-
-    private:
-        FallResult fall();
-        void handleInput();
-        void updateStats();
-
-        Piece piece;
-        Grid grid;
-
-        float accumulator;
-        
-        GameStats stats;
-        FallResult result;
-
-        sf::RenderWindow window;
+struct FallResult {
+    int cleared_rows = 0;
+    bool piece_locked = 0;
+    bool game_over = 0;
 };

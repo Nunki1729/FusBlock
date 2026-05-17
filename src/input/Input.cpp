@@ -19,6 +19,7 @@
 
 #include "Input.hpp"
 #include "../config/Config.hpp"
+#include "../types/Action.hpp"
 
 namespace input {
 
@@ -37,6 +38,12 @@ std::vector<Action> poll(sf::RenderWindow& window) {
                 case sf::Keyboard::D: actions.push_back(Action::MoveRight); break;
                 case sf::Keyboard::W: actions.push_back(Action::Rotate); break;
                 case sf::Keyboard::S: actions.push_back(Action::SoftDrop); break;
+
+                case sf::Keyboard::Left: actions.push_back(Action::MoveLeft); break;
+                case sf::Keyboard::Right: actions.push_back(Action::MoveRight); break;
+                case sf::Keyboard::Up: actions.push_back(Action::Rotate); break;
+                case sf::Keyboard::Down: actions.push_back(Action::SoftDrop); break;
+
                 default: break;
             }
         }

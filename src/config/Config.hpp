@@ -45,7 +45,7 @@ namespace config {
     namespace game {
         constexpr float FALL_DELAY_MIN = 0.1f;
         constexpr float FALL_DELAY_INITIAL = 2.0f;
-        constexpr float DIFFICULTY = 0.01f;
+        constexpr float DIFFICULTY = 0.3f;
     }
 
     namespace window {
