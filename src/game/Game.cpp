@@ -43,7 +43,7 @@ Game::Game() :
     accumulator(0.0f),
     window(sf::VideoMode(config::window::WIDTH, config::window::HEIGHT), "FusBlock"),
     stats{0, 0, config::game::FALL_DELAY_INITIAL},
-    render(window, grid, piece) {}
+    render(window, piece, grid, stats) {}
 
 FallResult Game::fall() {
     FallResult result;
@@ -100,7 +100,7 @@ void Game::handleInput() {
     }
 }
 
-void Game::updateStats() {
+void Game::updateStats(const FallResult& result) {
     stats.score += (result.cleared_rows == 4) ? 500 : result.cleared_rows * 100;
     stats.cleared_lines += result.cleared_rows;
     stats.game_over |= result.game_over;
@@ -116,13 +116,13 @@ void Game::frame(const float deltaTime) { // Lo que ocurre en un frame
     render.beginFrame();
 
     // COMIENZO DEL FRAME
-
+    FallResult fallResult;
     while (accumulator > stats.fall_delay) { // Comprobar si la pieza cae
-        result = fall(); // La pieza cae y además la función fall() devuelve el número de filas se han eliminado
+        fallResult = fall(); // La pieza cae y además la función fall() devuelve el número de filas se han eliminado
         accumulator -= stats.fall_delay;
     }
 
-    updateStats();
+    updateStats(fallResult);
 
     handleInput();
 

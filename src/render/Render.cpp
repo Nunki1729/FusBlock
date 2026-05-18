@@ -21,11 +21,11 @@
 #include "../config/Config.hpp"
 
 #include "../types/RenderData.hpp"
+#include "../types/GameStats.hpp"
     
-Render::Render(sf::RenderWindow& w, const Grid& g, const Piece& p):
+Render::Render(sf::RenderWindow& w, const Piece& p, const Grid& g, const GameStats& s):
     window(w),
-    grid(g),
-    piece(p) {
+    data{p, g, s} {
     window.setFramerateLimit(config::window::FPS);
 }
 
@@ -38,8 +38,8 @@ void Render::endFrame() {
     }
 
 void Render::showState() {
-        int baseX = piece.getX();
-        int baseY = piece.getY();
+        int baseX = data.piece.getX();
+        int baseY = data.piece.getY();
 
         auto is_in_piece = [baseX, baseY](int y, int x) {
             return (x >= baseX && x <= baseX + config::piece::WIDTH - 1) && (y >= baseY && y <= baseY + config::piece::HEIGHT - 1); 
@@ -53,9 +53,9 @@ void Render::showState() {
                 bool value;
 
                 if (is_in_piece(y, x)) {
-                    value = (piece.getCell(y - baseY, x - baseX) || grid.getCell(y, x));
+                    value = (data.piece.getCell(y - baseY, x - baseX) || data.grid.getCell(y, x));
                 } else {
-                    value = grid.getCell(y, x);
+                    value = data.grid.getCell(y, x);
                 }
 
                 if (value) {

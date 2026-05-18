@@ -24,6 +24,7 @@
 
 #include "../types/FallResult.hpp"
 #include "../types/GameStats.hpp"
+#include "../types/RenderData.hpp"
 
 #include "../render/Render.hpp"
 
@@ -37,7 +38,7 @@ class Game{
     private:
         FallResult fall();
         void handleInput();
-        void updateStats();
+        void updateStats(const FallResult& result);
 
         Piece piece;
         Grid grid;
@@ -45,7 +46,6 @@ class Game{
         float accumulator;
         
         GameStats stats;
-        FallResult result;
 
         sf::RenderWindow window;
         Render render;

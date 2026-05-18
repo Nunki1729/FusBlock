@@ -19,14 +19,16 @@
 #include <SFML/Graphics.hpp>
 #include "../config/Config.hpp"
 
+#include "../types/RenderData.hpp"
+
 class Grid;
 class Piece;
 
-struct RenderData;
+struct GameStats;
 
 class Render {
     public:
-    Render(sf::RenderWindow& w, const Grid& g, const Piece& p);
+    Render(sf::RenderWindow& w, const Piece& p, const Grid& g, const GameStats& s);
 
     void beginFrame();
     void endFrame();
@@ -40,8 +42,5 @@ class Render {
     sf::RenderWindow& window;
     sf::Font font;
 
-    //const RenderData& data;
-    const Piece& piece;
-    const Grid& grid;
-    //const GameStats& stats;
+    const RenderData data;
 };
