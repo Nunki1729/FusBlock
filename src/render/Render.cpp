@@ -14,6 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#include <string>
+#include <iostream>
+
 #include <SFML/Graphics.hpp>
 #include "Render.hpp"
 #include "../game/Piece.hpp"
@@ -27,6 +30,9 @@ Render::Render(sf::RenderWindow& w, const Piece& p, const Grid& g, const GameSta
     window(w),
     data{p, g, s} {
     window.setFramerateLimit(config::window::FPS);
+    if (!font.loadFromFile("assets/fonts/dev_font/TrainOne-Regular.ttf")) {
+        std::cout << "FONT FAILED\n";
+}
 }
 
 void Render::beginFrame() {
@@ -74,6 +80,28 @@ void Render::showState() {
         }
     }
 
+void Render::showText() {
+
+    sf::Text text;
+    text.setFont(font);
+    text.setCharacterSize(24);
+
+    float hudX = config::grid::PLAY_MAX_X * config::render::CELL_SIZE + 100;
+
+    // SCORE
+    text.setString("Score: " + std::to_string(data.stats.score));
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(hudX, 50.f);
+    window.draw(text);
+
+    // LINES
+    text.setString("Cleared lines: " + std::to_string(data.stats.cleared_lines));
+    text.setFillColor(sf::Color::White);
+    text.setPosition(hudX, 90.f);
+    window.draw(text);
+}
+
 void Render::updateWindow() {
     showState();
+    showText();
 }

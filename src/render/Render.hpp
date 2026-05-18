@@ -38,6 +38,7 @@ class Render {
 
     private:
     void showState();
+    void showText();
 
     sf::RenderWindow& window;
     sf::Font font;
